@@ -1,6 +1,6 @@
 {
   "installCommand": "npm install --legacy-peer-deps",
-  "buildCommand": "npx react-scripts build",
+  "buildCommand": "npx craco build",
   "outputDirectory": "build",
   "rewrites": [
     {
