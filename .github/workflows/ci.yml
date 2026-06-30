@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+      - name: Run unit tests
+        env:
+          MONGO_URL: mongodb://localhost:27017
+          DB_NAME: careeros_test
+          JWT_SECRET: ci-test-jwt-secret
+          OPENAI_API_KEY: sk-test
+          COOKIE_SECURE: "false"
+          ADMIN_EMAIL: admin@careeros.ai
+          ADMIN_PASSWORD: admin123
+        run: cd backend && pytest tests/test_api_unit.py -n 0 -v
+
+  frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install and build frontend
+        env:
+          REACT_APP_BACKEND_URL: http://localhost:8000
+        run: |
+          cd frontend
+          yarn install --frozen-lockfile || yarn install
+          yarn build

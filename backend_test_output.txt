@@ -1,0 +1,736 @@
+EEEEEEE                                                                  [100%]
+=================================== ERRORS ====================================
+__________________ ERROR at setup of TestApiUnit.test_health __________________
+
+fixturedef = <FixtureDef argname='client' scope='function' baseid='tests'>
+request = <SubRequest 'client' for <Function test_health>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+backend\tests\conftest.py:59: in client
+    with TestClient(app) as c:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:787: in __enter__
+    portal.call(self.wait_startup)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:290: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:822: in wait_startup
+    await receive()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:813: in receive
+    self.task.result()
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:803: in lifespan
+    await self.app(scope, self.stream_receive.receive, self.stream_send.send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\errors.py:151: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\cors.py:77: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\exceptions.py:51: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:765: in app
+    await self.lifespan(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:732: in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:608: in __aenter__
+    await self._router.startup()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:709: in startup
+    await handler()
+backend\server.py:564: in startup
+    await db.users.create_index("email", unique=True)
+C:\Program Files\Python312\Lib\concurrent\futures\thread.py:58: in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\collection.py:2136: in create_index
+    return self.__create_indexes([index], session, **cmd_options)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\_csot.py:107: in csot_wrapper
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\collection.py:1988: in __create_indexes
+    with self._conn_for_writes(session) as conn:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\collection.py:263: in _conn_for_writes
+    return self.__database.client._conn_for_writes(session)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\mongo_client.py:1313: in _conn_for_writes
+    server = self._select_server(writable_server_selector, session)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\mongo_client.py:1303: in _select_server
+    server = topology.select_server(server_selector)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\topology.py:302: in select_server
+    server = self._select_server(selector, server_selection_timeout, address)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\topology.py:286: in _select_server
+    servers = self.select_servers(selector, server_selection_timeout, address)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\topology.py:237: in select_servers
+    server_descriptions = self._select_servers_loop(selector, server_timeout, address)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <Topology <TopologyDescription id: 6a43ce85924788eacbcb63a9, topology_type: Unknown, servers: [<ServerDescription ('lo...target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>>
+selector = <function writable_server_selector at 0x0000029D18C35260>
+timeout = 30, address = None
+
+    def _select_servers_loop(
+        self,
+        selector: Callable[[Selection], Selection],
+        timeout: float,
+        address: Optional[_Address],
+    ) -> list[ServerDescription]:
+        """select_servers() guts. Hold the lock when calling this."""
+        now = time.monotonic()
+        end_time = now + timeout
+        server_descriptions = self._description.apply_selector(
+            selector, address, custom_selector=self._settings.server_selector
+        )
+    
+        while not server_descriptions:
+            # No suitable servers.
+            if timeout == 0 or now > end_time:
+>               raise ServerSelectionTimeoutError(
+                    f"{self._error_message(selector)}, Timeout: {timeout}s, Topology Description: {self.description!r}"
+                )
+E               pymongo.errors.ServerSelectionTimeoutError: localhost:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms), Timeout: 30s, Topology Description: <TopologyDescription id: 6a43ce85924788eacbcb63a9, topology_type: Unknown, servers: [<ServerDescription ('localhost', 27017) server_type: Unknown, rtt: None, error=AutoReconnect('localhost:27017: [WinError 10061] No connection could be made because the target machine actively refused it (configured timeouts: socketTimeoutMS: 20000.0ms, connectTimeoutMS: 20000.0ms)')>]>
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pymongo\topology.py:259: ServerSelectionTimeoutError
+_____________ ERROR at setup of TestApiUnit.test_register_and_me ______________
+
+fixturedef = <FixtureDef argname='client' scope='function' baseid='tests'>
+request = <SubRequest 'client' for <Function test_register_and_me>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+backend\tests\conftest.py:59: in client
+    with TestClient(app) as c:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:787: in __enter__
+    portal.call(self.wait_startup)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:290: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:822: in wait_startup
+    await receive()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:813: in receive
+    self.task.result()
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:803: in lifespan
+    await self.app(scope, self.stream_receive.receive, self.stream_send.send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\errors.py:151: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\cors.py:77: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\exceptions.py:51: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:765: in app
+    await self.lifespan(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:732: in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:608: in __aenter__
+    await self._router.startup()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:709: in startup
+    await handler()
+backend\server.py:564: in startup
+    await db.users.create_index("email", unique=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\metaprogramming.py:74: in method
+    return framework.run_on_executor(
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\frameworks\asyncio\__init__.py:85: in run_on_executor
+    return loop.run_in_executor(_EXECUTOR, functools.partial(fn, *args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\asyncio\base_events.py:850: in run_in_executor
+    self._check_closed()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <ProactorEventLoop running=False closed=True debug=False>
+
+    def _check_closed(self):
+        if self._closed:
+>           raise RuntimeError('Event loop is closed')
+E           RuntimeError: Event loop is closed
+
+C:\Program Files\Python312\Lib\asyncio\base_events.py:541: RuntimeError
+____ ERROR at setup of TestApiUnit.test_create_application_paginated_list _____
+
+fixturedef = <FixtureDef argname='client' scope='function' baseid='tests'>
+request = <SubRequest 'client' for <Function test_create_application_paginated_list>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+backend\tests\conftest.py:59: in client
+    with TestClient(app) as c:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:787: in __enter__
+    portal.call(self.wait_startup)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:290: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:822: in wait_startup
+    await receive()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:813: in receive
+    self.task.result()
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:803: in lifespan
+    await self.app(scope, self.stream_receive.receive, self.stream_send.send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\errors.py:151: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\cors.py:77: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\exceptions.py:51: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:765: in app
+    await self.lifespan(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:732: in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:608: in __aenter__
+    await self._router.startup()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:709: in startup
+    await handler()
+backend\server.py:564: in startup
+    await db.users.create_index("email", unique=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\metaprogramming.py:74: in method
+    return framework.run_on_executor(
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\frameworks\asyncio\__init__.py:85: in run_on_executor
+    return loop.run_in_executor(_EXECUTOR, functools.partial(fn, *args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\asyncio\base_events.py:850: in run_in_executor
+    self._check_closed()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <ProactorEventLoop running=False closed=True debug=False>
+
+    def _check_closed(self):
+        if self._closed:
+>           raise RuntimeError('Event loop is closed')
+E           RuntimeError: Event loop is closed
+
+C:\Program Files\Python312\Lib\asyncio\base_events.py:541: RuntimeError
+___________ ERROR at setup of TestApiUnit.test_run_pipeline_mocked ____________
+
+fixturedef = <FixtureDef argname='client' scope='function' baseid='tests'>
+request = <SubRequest 'client' for <Function test_run_pipeline_mocked>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+backend\tests\conftest.py:59: in client
+    with TestClient(app) as c:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:787: in __enter__
+    portal.call(self.wait_startup)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:290: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:822: in wait_startup
+    await receive()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:813: in receive
+    self.task.result()
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:803: in lifespan
+    await self.app(scope, self.stream_receive.receive, self.stream_send.send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\errors.py:151: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\cors.py:77: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\exceptions.py:51: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:765: in app
+    await self.lifespan(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:732: in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:608: in __aenter__
+    await self._router.startup()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:709: in startup
+    await handler()
+backend\server.py:564: in startup
+    await db.users.create_index("email", unique=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\metaprogramming.py:74: in method
+    return framework.run_on_executor(
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\frameworks\asyncio\__init__.py:85: in run_on_executor
+    return loop.run_in_executor(_EXECUTOR, functools.partial(fn, *args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\asyncio\base_events.py:850: in run_in_executor
+    self._check_closed()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <ProactorEventLoop running=False closed=True debug=False>
+
+    def _check_closed(self):
+        if self._closed:
+>           raise RuntimeError('Event loop is closed')
+E           RuntimeError: Event loop is closed
+
+C:\Program Files\Python312\Lib\asyncio\base_events.py:541: RuntimeError
+______________ ERROR at setup of TestApiUnit.test_profile_update ______________
+
+fixturedef = <FixtureDef argname='client' scope='function' baseid='tests'>
+request = <SubRequest 'client' for <Function test_profile_update>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+backend\tests\conftest.py:59: in client
+    with TestClient(app) as c:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:787: in __enter__
+    portal.call(self.wait_startup)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:290: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:822: in wait_startup
+    await receive()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:813: in receive
+    self.task.result()
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:803: in lifespan
+    await self.app(scope, self.stream_receive.receive, self.stream_send.send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\errors.py:151: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\cors.py:77: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\exceptions.py:51: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:765: in app
+    await self.lifespan(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:732: in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:608: in __aenter__
+    await self._router.startup()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:709: in startup
+    await handler()
+backend\server.py:564: in startup
+    await db.users.create_index("email", unique=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\metaprogramming.py:74: in method
+    return framework.run_on_executor(
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\frameworks\asyncio\__init__.py:85: in run_on_executor
+    return loop.run_in_executor(_EXECUTOR, functools.partial(fn, *args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\asyncio\base_events.py:850: in run_in_executor
+    self._check_closed()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <ProactorEventLoop running=False closed=True debug=False>
+
+    def _check_closed(self):
+        if self._closed:
+>           raise RuntimeError('Event loop is closed')
+E           RuntimeError: Event loop is closed
+
+C:\Program Files\Python312\Lib\asyncio\base_events.py:541: RuntimeError
+________ ERROR at setup of TestApiUnit.test_admin_stats_requires_admin ________
+
+fixturedef = <FixtureDef argname='client' scope='function' baseid='tests'>
+request = <SubRequest 'client' for <Function test_admin_stats_requires_admin>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+backend\tests\conftest.py:59: in client
+    with TestClient(app) as c:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:787: in __enter__
+    portal.call(self.wait_startup)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:290: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:822: in wait_startup
+    await receive()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:813: in receive
+    self.task.result()
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:803: in lifespan
+    await self.app(scope, self.stream_receive.receive, self.stream_send.send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\errors.py:151: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\cors.py:77: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\exceptions.py:51: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:765: in app
+    await self.lifespan(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:732: in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:608: in __aenter__
+    await self._router.startup()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:709: in startup
+    await handler()
+backend\server.py:564: in startup
+    await db.users.create_index("email", unique=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\metaprogramming.py:74: in method
+    return framework.run_on_executor(
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\frameworks\asyncio\__init__.py:85: in run_on_executor
+    return loop.run_in_executor(_EXECUTOR, functools.partial(fn, *args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\asyncio\base_events.py:850: in run_in_executor
+    self._check_closed()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <ProactorEventLoop running=False closed=True debug=False>
+
+    def _check_closed(self):
+        if self._closed:
+>           raise RuntimeError('Event loop is closed')
+E           RuntimeError: Event loop is closed
+
+C:\Program Files\Python312\Lib\asyncio\base_events.py:541: RuntimeError
+___________ ERROR at setup of TestApiUnit.test_admin_stats_success ____________
+
+fixturedef = <FixtureDef argname='client' scope='function' baseid='tests'>
+request = <SubRequest 'client' for <Function test_admin_stats_success>>
+
+    @pytest.hookimpl(wrapper=True)
+    def pytest_fixture_setup(fixturedef: FixtureDef, request) -> object | None:
+        if (
+            fixturedef.argname == "event_loop_policy"
+            and fixturedef.func.__module__ != __name__
+        ):
+            warnings.warn(
+                PytestDeprecationWarning(_EVENT_LOOP_POLICY_FIXTURE_DEPRECATION_WARNING),
+            )
+        asyncio_mode = _get_asyncio_mode(request.config)
+        if not _is_asyncio_fixture_function(fixturedef.func):
+            if asyncio_mode == Mode.STRICT:
+                # Ignore async fixtures without explicit asyncio mark in strict mode
+                # This applies to pytest_trio fixtures, for example
+>               return (yield)
+                        ^^^^^
+
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\pytest_asyncio\plugin.py:924: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+backend\tests\conftest.py:59: in client
+    with TestClient(app) as c:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:787: in __enter__
+    portal.call(self.wait_startup)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:290: in call
+    return cast(T_Retval, self.start_task_soon(func, *args).result())
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:456: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:822: in wait_startup
+    await receive()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:813: in receive
+    self.task.result()
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:449: in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\concurrent\futures\_base.py:401: in __get_result
+    raise self._exception
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\anyio\from_thread.py:221: in _call_func
+    retval = await retval_or_awaitable
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\testclient.py:803: in lifespan
+    await self.app(scope, self.stream_receive.receive, self.stream_send.send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:1054: in __call__
+    await super().__call__(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\applications.py:123: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\errors.py:151: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\cors.py:77: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\middleware\exceptions.py:51: in __call__
+    await self.app(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:756: in __call__
+    await self.middleware_stack(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:765: in app
+    await self.lifespan(scope, receive, send)
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:732: in lifespan
+    async with self.lifespan_context(app) as maybe_state:
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:608: in __aenter__
+    await self._router.startup()
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\starlette\routing.py:709: in startup
+    await handler()
+backend\server.py:564: in startup
+    await db.users.create_index("email", unique=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\metaprogramming.py:74: in method
+    return framework.run_on_executor(
+..\..\..\..\AppData\Roaming\Python\Python312\site-packages\motor\frameworks\asyncio\__init__.py:85: in run_on_executor
+    return loop.run_in_executor(_EXECUTOR, functools.partial(fn, *args, **kwargs))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Program Files\Python312\Lib\asyncio\base_events.py:850: in run_in_executor
+    self._check_closed()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <ProactorEventLoop running=False closed=True debug=False>
+
+    def _check_closed(self):
+        if self._closed:
+>           raise RuntimeError('Event loop is closed')
+E           RuntimeError: Event loop is closed
+
+C:\Program Files\Python312\Lib\asyncio\base_events.py:541: RuntimeError
+============================== warnings summary ===============================
+tests/test_api_unit.py::TestApiUnit::test_health
+  C:\Users\user\AppData\Roaming\Python\Python312\site-packages\starlette\formparsers.py:12: PendingDeprecationWarning: Please use `import python_multipart` instead.
+    import multipart
+
+tests/test_api_unit.py::TestApiUnit::test_health
+  c:\Users\user\OneDrive\Documents\Capstone Project\Capstone_Project-main\backend\server.py:562: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("startup")
+
+tests/test_api_unit.py::TestApiUnit::test_health
+tests/test_api_unit.py::TestApiUnit::test_health
+  C:\Users\user\AppData\Roaming\Python\Python312\site-packages\fastapi\applications.py:4495: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    return self.router.on_event(event_type)
+
+tests/test_api_unit.py::TestApiUnit::test_health
+  c:\Users\user\OneDrive\Documents\Capstone Project\Capstone_Project-main\backend\server.py:570: DeprecationWarning: 
+          on_event is deprecated, use lifespan event handlers instead.
+  
+          Read more about it in the
+          [FastAPI docs for Lifespan Events](https://fastapi.tiangolo.com/advanced/events/).
+          
+    @app.on_event("shutdown")
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR backend\tests\test_api_unit.py::TestApiUnit::test_health - pymongo.erro...
+ERROR backend\tests\test_api_unit.py::TestApiUnit::test_register_and_me - Run...
+ERROR backend\tests\test_api_unit.py::TestApiUnit::test_create_application_paginated_list
+ERROR backend\tests\test_api_unit.py::TestApiUnit::test_run_pipeline_mocked
+ERROR backend\tests\test_api_unit.py::TestApiUnit::test_profile_update - Runt...
+ERROR backend\tests\test_api_unit.py::TestApiUnit::test_admin_stats_requires_admin
+ERROR backend\tests\test_api_unit.py::TestApiUnit::test_admin_stats_success
+5 warnings, 7 errors in 34.26s

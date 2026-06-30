@@ -1,0 +1,105 @@
+{
+  "project_name": "AI-Driven Resume & Job-Application Platform",
+  "theme": {
+    "mode": "dark",
+    "archetype": "Archetype 4 (Swiss & High-Contrast)",
+    "description": "A premium AI career operating system — calm, sharp, futuristic, and trustworthy. Linear × Notion × Vercel × Stripe Dashboard vibe."
+  },
+  "tech_stack_rules": {
+    "file_extension": "Use .js and .jsx files exclusively. Do NOT use .ts or .tsx files.",
+    "components": "Use customized Shadcn UI primitives (JavaScript versions) alongside pure HTML/Tailwind.",
+    "styling": "Tailwind CSS with arbitrary values where necessary for exact brand matching."
+  },
+  "colors": {
+    "background": {
+      "base": "bg-[#0A0A0A]",
+      "surface": "bg-[#141414]",
+      "glass": "bg-white/5 backdrop-blur-xl"
+    },
+    "text": {
+      "primary": "text-[#F3F4F6]",
+      "secondary": "text-[#9CA3AF]",
+      "muted": "text-[#6B7280]"
+    },
+    "border": "border-white/10",
+    "accents": {
+      "primary": "text-[#0066FF] bg-[#0066FF]",
+      "ai_state": "text-[#8B5CF6] bg-[#8B5CF6]",
+      "success": "text-[#10B981] bg-[#10B981]",
+      "warning": "text-[#F59E0B] bg-[#F59E0B]"
+    },
+    "rules": [
+      "Avoid pure black (#000000). Always use layered dark grays like #0A0A0A.",
+      "Never use pure white (#FFFFFF) for body text to prevent glare; use off-white (#F3F4F6).",
+      "Use #8B5CF6 (Violet) specifically and exclusively for AI generation states, matching, and AI suggestions."
+    ]
+  },
+  "typography": {
+    "headings": {
+      "font": "font-sans",
+      "classes": "tracking-tight font-medium text-[#F3F4F6]",
+      "recommended_family": "Cabinet Grotesk or Satoshi (Fallback to system UI sans-serif)"
+    },
+    "body": {
+      "font": "font-sans",
+      "classes": "leading-relaxed text-[#9CA3AF]",
+      "recommended_family": "IBM Plex Sans or Geist"
+    },
+    "rules": [
+      "No generic Inter/Roboto for headings.",
+      "Overlines / Labels MUST be Uppercase + Tiny + Wide Spacing (tracking-[0.2em]).",
+      "H1 size should not exceed text-5xl."
+    ]
+  },
+  "spacing_and_layout": {
+    "grid_system": "MODE B: THE 'CONTROL ROOM' GRID",
+    "grid_classes": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6",
+    "surface_strategy": {
+      "cards": "rounded-2xl border border-white/10 bg-[#141414] p-6 shadow-sm",
+      "glass_panels": "backdrop-blur-xl bg-white/5 border-white/10 rounded-2xl"
+    },
+    "overall_structure": [
+      "Left Sidebar (w-64): Fixed navigation, Application History, Status Tracking.",
+      "Main Workspace: Tabs for Resume, Fit Analysis, Cover Letter, Interview Pack, ATS Score.",
+      "Right Sidebar (w-80): Collapsible AI Assistant / Command Palette."
+    ]
+  },
+  "components_strategy": {
+    "buttons": "Shadcn primitives. Primary: bg-[#0066FF] hover:bg-[#0052CC] text-white. Use data-testid.",
+    "tabs": "Clean, Vercel-like tabs. Active state gets a subtle bg highlight and high contrast text.",
+    "diff_view": "Two-pane side-by-side layout (grid-cols-2). Left pane: red/warning highlights for removed text. Right pane: emerald highlights for AI-improved text.",
+    "status_timeline": "Vertical stepped timeline for job application status, utilizing emerald/amber indicator dots.",
+    "ai_progress": "Violet glowing indeterminate progress bar or shimmering skeletal loaders (animate-pulse with from-violet-500/20 via-violet-500/10 to-transparent) during AI parsing."
+  },
+  "icons": {
+    "library": "lucide-react",
+    "rules": "Keep icons minimal, stroke-width 1.5. Use AI sparkles icon (Sparkles) for AI actions."
+  },
+  "testing": {
+    "rules": [
+      "All interactive and key informational elements MUST include a data-testid attribute.",
+      "Convention: kebab-case, role-based. Example: data-testid='upload-resume-button', data-testid='ats-score-display'."
+    ]
+  },
+  "image_urls": [
+    {
+      "url": "https://images.pexels.com/photos/1755/purple-abstract-blur-bokeh.jpg",
+      "description": "Vibrant abstract background with a blurred purple glow.",
+      "category": "ai_background"
+    },
+    {
+      "url": "https://images.pexels.com/photos/29852852/pexels-photo-29852852.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Elegant studio portrait of a woman against a black background.",
+      "category": "user_avatar"
+    }
+  ],
+  "instructions_to_main_agent": [
+    "Build the dashboard using pure HTML/Tailwind for layouts and customized JS Shadcn components for interactivity. Ensure NO TypeScript (.tsx) files are created.",
+    "Implement a default dark mode matching the Vercel x Linear aesthetic: deep charcoal base, glassy panels, rounded-2xl cards, and soft shadows.",
+    "For the 'Fit Analysis' and 'ATS Score' sections, use dynamic charts or circular progress indicators.",
+    "Ensure 'Violet' (#8B5CF6) is reserved exclusively to signal AI at work (e.g., generation states, AI rewriting).",
+    "Implement the side-by-side Diff View layout cleanly so users can compare original vs AI-rewritten resumes.",
+    "Apply 'data-testid' to ALL buttons, tabs, inputs, and major state containers for testing.",
+    "Do not use generic sans-serif for headings; apply a premium tracking-tight display font styling."
+  ]
+}

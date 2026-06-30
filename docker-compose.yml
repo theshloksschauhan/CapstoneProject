@@ -1,0 +1,35 @@
+services:
+  mongo:
+    image: mongo:7
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    environment:
+      MONGO_URL: mongodb://mongo:27017
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_BACKEND_URL: ${REACT_APP_BACKEND_URL:-http://localhost:8000}
+    depends_on:
+      - backend
+    ports:
+      - "3000:80"
+    env_file:
+      - ./frontend/.env
+
+volumes:
+  mongo_data:
