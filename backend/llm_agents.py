@@ -5,7 +5,7 @@ import asyncio
 from typing import Optional
 from openai import AsyncOpenAI
 
-MODEL_NAME = os.environ.get("OPENAI_MODEL", "gpt-4o")
+MODEL_NAME = os.environ.get("OPENAI_MODEL") or ("gemini-2.0-flash" if "GEMINI_API_KEY" in os.environ else "gpt-4o")
 
 _client: Optional[AsyncOpenAI] = None
 
@@ -13,7 +13,15 @@ _client: Optional[AsyncOpenAI] = None
 def _get_client() -> AsyncOpenAI:
     global _client
     if _client is None:
-        _client = AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
+        if "GEMINI_API_KEY" in os.environ:
+            _client = AsyncOpenAI(
+                api_key=os.environ["GEMINI_API_KEY"], 
+                base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
+            )
+        else:
+            api_key = os.environ.get("GROQ_API_KEY") or os.environ.get("OPENAI_API_KEY")
+            base_url = "https://api.groq.com/openai/v1" if "GROQ_API_KEY" in os.environ else None
+            _client = AsyncOpenAI(api_key=api_key, base_url=base_url)
     return _client
 
 
