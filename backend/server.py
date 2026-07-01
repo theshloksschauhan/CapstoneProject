@@ -50,8 +50,7 @@ DAILY_AI_RUN_LIMIT = int(os.environ.get("DAILY_AI_RUN_LIMIT", "20"))
 
 
 def _allowed_origins() -> list[str]:
-    raw = os.environ.get("FRONTEND_URL", "http://localhost:3000")
-    return [origin.strip() for origin in raw.split(",") if origin.strip()]
+    return ["*"]
 
 
 # ---------------- Models ----------------
@@ -594,7 +593,7 @@ app.include_router(api_router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_allowed_origins(),
+    allow_origin_regex=".*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
