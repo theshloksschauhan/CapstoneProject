@@ -234,7 +234,7 @@ async def health():
     return {
         "status": "ok" if db_ok else "degraded",
         "database": db_ok,
-        "openai_configured": bool(os.environ.get("OPENAI_API_KEY") or os.environ.get("GEMINI_API_KEY") or os.environ.get("GROQ_API_KEY")),
+        "openai_configured": bool(os.environ.get("OPENAI_API_KEY") or os.environ.get("GEMINI_API_KEY") or os.environ.get("GROQ_API_KEY") or os.environ.get("OPENROUTER_API_KEY")),
     }
 
 

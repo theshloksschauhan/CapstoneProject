@@ -6,13 +6,15 @@ from typing import Optional
 from openai import AsyncOpenAI
 
 def _get_default_model():
+    if "OPENROUTER_API_KEY" in os.environ:
+        return "qwen/qwen3-coder-480b-a35b:free"
     if "GEMINI_API_KEY" in os.environ:
         return "gemini-2.0-flash"
     if "GROQ_API_KEY" in os.environ:
-        return "llama3-70b-8192"
+        return "llama-3.3-70b-versatile"
     return "gpt-4o"
 
-MODEL_NAME = os.environ.get("GEMINI_MODEL") or os.environ.get("OPENAI_MODEL") or _get_default_model()
+MODEL_NAME = os.environ.get("OPENROUTER_MODEL") or os.environ.get("GEMINI_MODEL") or os.environ.get("OPENAI_MODEL") or _get_default_model()
 
 _client: Optional[AsyncOpenAI] = None
 
@@ -20,7 +22,12 @@ _client: Optional[AsyncOpenAI] = None
 def _get_client() -> AsyncOpenAI:
     global _client
     if _client is None:
-        if "GEMINI_API_KEY" in os.environ:
+        if "OPENROUTER_API_KEY" in os.environ:
+            _client = AsyncOpenAI(
+                api_key=os.environ["OPENROUTER_API_KEY"], 
+                base_url="https://openrouter.ai/api/v1"
+            )
+        elif "GEMINI_API_KEY" in os.environ:
             _client = AsyncOpenAI(
                 api_key=os.environ["GEMINI_API_KEY"], 
                 base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
