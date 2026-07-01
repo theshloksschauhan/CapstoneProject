@@ -154,14 +154,6 @@ export default function AppLayout() {
                 <p className="truncate text-xs text-[#6B7280]">{user?.email}</p>
               </div>
             </div>
-            <button
-              data-testid="logout-btn"
-              onClick={handleLogout}
-              className="rounded-lg p-2 text-[#9CA3AF] transition-colors hover:bg-white/5 hover:text-white"
-              title="Sign out"
-            >
-              <LogOut className="h-4 w-4" />
-            </button>
           </div>
         </div>
       </aside>

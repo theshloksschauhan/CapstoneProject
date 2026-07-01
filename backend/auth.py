@@ -165,3 +165,19 @@ async def seed_admin(db):
     elif not verify_password(admin_password, existing["password_hash"]):
         await db.users.update_one({"email": admin_email},
                                   {"$set": {"password_hash": hash_password(admin_password)}})
+
+    # Seed global guest user
+    guest_email = "guest@careeros.com"
+    guest_password = "GuestLogin123!"
+    existing_guest = await db.users.find_one({"email": guest_email})
+    if existing_guest is None:
+        await db.users.insert_one({
+            "email": guest_email,
+            "password_hash": hash_password(guest_password),
+            "name": "Guest",
+            "role": "guest",
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        })
+    elif not verify_password(guest_password, existing_guest["password_hash"]):
+        await db.users.update_one({"email": guest_email},
+                                  {"$set": {"password_hash": hash_password(guest_password)}})
