@@ -7,7 +7,7 @@ from openai import AsyncOpenAI
 
 def _get_default_model():
     if "OPENROUTER_API_KEY" in os.environ:
-        return "qwen/qwen-2.5-coder-32b-instruct:free"
+        return "openai/gpt-oss-120b:free"
     if "GEMINI_API_KEY" in os.environ:
         return "gemini-2.0-flash"
     if "GROQ_API_KEY" in os.environ:
