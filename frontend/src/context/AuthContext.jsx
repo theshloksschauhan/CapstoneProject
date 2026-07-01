@@ -14,7 +14,10 @@ export function AuthProvider({ children }) {
     } catch (e) {
       // Auto-login as global guest
       try {
-        const { data } = await api.post("/auth/login", { email: "guest@careeros.com", password: "GuestLogin123!" });
+        const { data } = await api.post("/auth/login", {
+          email: "guest@careeros.com",
+          password: "GuestLogin123!"
+        });
         setAuthToken(data.access_token);
         setUser(data);
       } catch (e2) {
