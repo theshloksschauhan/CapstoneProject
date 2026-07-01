@@ -5,7 +5,7 @@ import asyncio
 from typing import Optional
 from openai import AsyncOpenAI
 
-MODEL_NAME = os.environ.get("OPENAI_MODEL") or ("gemini-2.0-flash" if "GEMINI_API_KEY" in os.environ else "gpt-4o")
+MODEL_NAME = os.environ.get("GEMINI_MODEL") or os.environ.get("OPENAI_MODEL") or ("gemini-2.0-flash" if "GEMINI_API_KEY" in os.environ else "gpt-4o")
 
 _client: Optional[AsyncOpenAI] = None
 
