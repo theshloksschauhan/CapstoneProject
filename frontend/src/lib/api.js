@@ -58,9 +58,6 @@ api.interceptors.response.use(
       return api(original);
     } catch (refreshError) {
       setAuthToken(null);
-      if (window.location.pathname.startsWith("/app")) {
-        window.location.href = "/login";
-      }
       return Promise.reject(refreshError);
     }
   }
